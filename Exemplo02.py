@@ -5,7 +5,7 @@ def download(url, num_retries=2):
     page = None
     try:
         response = requests.get(url)
-    except requestst.exceptions.RequestsException as e:
+    except requests.exceptions.RequestsException as e:
         print('Download error:', e.reason)
     return page
 
