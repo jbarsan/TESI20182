@@ -1,39 +1,32 @@
+# Importando os módulos necessários
 from bs4 import BeautifulSoup as bs
-
-# Usando o selenium pra ajudar a baixar as páginas
-# geradas automaticamente por javascript
+import html5lib
 from selenium import webdriver
 
-# Setando a opção 'headless' (sem cabeçalho) do chrome
+# Setando a opção 'headless' do chrome
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
-driver = webdriver.Chrome(chrome_options=options)
+driver = webdriver.Chrome(options=options)
 
 # URL da página
 url = 'https://www.rottentomatoes.com/browse/opening'
 
 driver.get(url)
+
 html = driver.page_source
-
-lista = []
-dic = {}
 soup = bs(html, 'html5lib')
-for i in soup.find_all('div', {'class':'mb-movie'}):
-    for j in i.find_all('h3', {'class': 'movieTitle'}):
-        title = j.text
-        for score in i.find_all('span', {'class': 'tMeterScore'}):
-            s = score.text
-    
-    dic[title] = s
-    lista.append(dic)
-    s = None # Zerando o score
-    dic = {} # Zerando o dict
+movies = soup.find_all('div', {'class': 'mb-movie'})
+movie_list = []
 
-# Exibindo a lista de filmes e os scores
-for i in lista:
-    score = i.keys()
-    title = i.values()
-    texto = """
-    Title: {}
-    Score: {}""".format(title, score)
-    print(texto)
+for movie in movies:
+    title = movie.find('h3', class_= 'movieTitle').text
+    meter_score = movie.find('span', class_= 'tMeterScore')
+    score = None
+    if meter_score == None:
+        score = 'No Score'
+    else:
+        score = meter_score.text
+    info = {'Título': title, "Avaliação": score}
+    movie_list.append(info)
+    print(info)
+    
