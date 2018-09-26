@@ -2,14 +2,13 @@ import requests
 import requests_cache
 import time
 
-requests_cache.install_cache()
-
 def download(url, num_retries=5):
+    requests_cache.install_cache()
     print('Downloading:', url)
     page = None
     try:
         response = requests.get(url)
-        print(response.status_code)
+        # print(response.status_code)
         page = response.text
         if response.status_code >= 400:
             print('Download error:', response.text)
