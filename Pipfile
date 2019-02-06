@@ -6,6 +6,13 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+requests = "*"
+html5lib = "*"
+beautifulsoup4 = "*"
+scikit-learn = "*"
+numpy = "*"
+scipy = "*"
+jupyter = "*"
 
 [requires]
 python_version = "3.7"
